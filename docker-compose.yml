@@ -5,7 +5,33 @@ services:
         build: ./TwitchRecorder/
         restart: always
         environment:
-            - USERNAME=destiny
+            - USERNAME=itmejp
+            #Quality filters of youtube-dl 
+            # Examples: 
+            #    https://askubuntu.com/q/486297/570936
+            #    https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection
+            - QUALITY=[tbr<2560]
+        volumes:
+            - ./output/:/src/app/allrecords
+            
+    record2:
+        build: ./TwitchRecorder/
+        restart: always
+        environment:
+            - USERNAME=rajjpatel
+            #Quality filters of youtube-dl 
+            # Examples: 
+            #    https://askubuntu.com/q/486297/570936
+            #    https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection
+            - QUALITY=[tbr<2560]
+        volumes:
+            - ./output/:/src/app/allrecords
+            
+    record3:
+        build: ./TwitchRecorder/
+        restart: always
+        environment:
+            - USERNAME=yonixw
             #Quality filters of youtube-dl 
             # Examples: 
             #    https://askubuntu.com/q/486297/570936
@@ -18,7 +44,10 @@ services:
         build: ./YoutubeUploader/
         restart: always
         volumes:
-            - ./output/:/src/app/allrecords
+            - ./output/:/src/app/allrecords/
             
             # How to get json: https://github.com/tokland/youtube-upload#setup
-            - ./client_secrets.json:/src/app/.client_secrets.json
+            - ./.client_secrets.json:/src/app/.client_secrets.json
+            
+            #In the first run this file will be created, so put empty file
+            - ./.youtube-upload-credentials.json:/root/.youtube-upload-credentials.json:rw
