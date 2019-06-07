@@ -1,15 +1,24 @@
 version : "3"
 
 services:
-    record_giantwaffle:
+    record1:
         build: ./TwitchRecorder/
         restart: always
         environment:
-            - USERNAME=yonixw
+            - USERNAME=destiny
             #Quality filters of youtube-dl 
             # Examples: 
             #    https://askubuntu.com/q/486297/570936
             #    https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection
-            - QUALITY=[tbr<3072]
+            - QUALITY=[tbr<2560]
         volumes:
             - ./output/:/src/app/allrecords
+            
+    upload:
+        build: ./YoutubeUploader/
+        restart: always
+        volumes:
+            - ./output/:/src/app/allrecords
+            
+            # How to get json: https://github.com/tokland/youtube-upload#setup
+            - ./client_secrets.json:/src/app/.client_secrets.json
