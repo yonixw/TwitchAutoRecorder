@@ -8,7 +8,7 @@ echo [`date +%F-%T`] ENV: Username $USERNAME, Quality: $QUALITY, record id: $id
 
 
 export status="$(youtube-dl -F http://www.twitch.tv/$USERNAME 2>&1 >/dev/null | grep --color offline)"
-while [[ $status =~ "offline|HTTPError" ]]
+while [[ $status =~ offline|HTTPError ]]
 do
     echo [`date +%F-%T`] Offline, waiting 5m
     sleep 5m
