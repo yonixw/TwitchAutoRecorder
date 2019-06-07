@@ -7,12 +7,12 @@ mkdir -p ./inprogress/$id
 echo [`date +%F-%T`] ENV: Username $USERNAME, Quality: $QUALITY, record id: $id
 
 
-export status="$(youtube-dl -F http://www.twitch.tv/$USERNAME 2>&1 >/dev/null | grep --color offline)"
+export status="$(youtube-dl -F http://www.twitch.tv/$USERNAME 2>&1 >/dev/null | grep -P '(HTTPError|offline)' )"
 while [[ $status =~ offline|HTTPError ]]
 do
     echo [`date +%F-%T`] Offline, waiting 5m
     sleep 5m
-    status="$(youtube-dl -F http://www.twitch.tv/$USERNAME 2>&1 >/dev/null | grep --color offline)"
+    status="$(youtube-dl -F http://www.twitch.tv/$USERNAME 2>&1 >/dev/null | grep -P '(HTTPError|offline)' )"
 done
 
 #Show available formats:
